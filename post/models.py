@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from django.urls import reverse
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
@@ -17,3 +17,9 @@ class Post(models.Model):
     posted_date = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     trailer_pattern = models.URLField(None)
+
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse('post:post_detail', args=[str(self.id)])
